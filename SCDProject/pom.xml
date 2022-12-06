@@ -12,12 +12,45 @@
         </repository>
     </repositories>
     <dependencies>
+        
+        <!--https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+ 
+        <dependency>
+                <groupId>com.itextpdf</groupId>
+                <artifactId>itextpdf</artifactId>
+                <version>5.5.5</version>
+        </dependency>
+        <!-- Thanks for using https://jar-download.com -->
+        
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.31</version>
+        </dependency>
+       <dependency>
+            <groupId>net.proteanit.sql</groupId>
+            <artifactId>rs2xml</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>C:\Users\Valeena Afzal\Downloads\rs2xml.jar</systemPath>
+        </dependency>
+        <!--<dependency>
+            <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+            <artifactId>jackson-jakarta-rs-xml-provider</artifactId>
+            <version>2.14.1</version>
+        </dependency>-->
         <dependency>
             <groupId>unknown.binary</groupId>
             <artifactId>AbsoluteLayout</artifactId>
             <version>SNAPSHOT</version>
         </dependency>
-	<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+	<!--https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
@@ -28,6 +61,12 @@
             <groupId>unknown.binary</groupId>
             <artifactId>jcalendar-1.1.4</artifactId>
             <version>SNAPSHOT</version>
+        </dependency>
+         <!-- https://mvnrepository.com/artifact/org.jfree/jfreechart -->
+          <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.5.3</version>
         </dependency>
         <dependency>
             <groupId>unknown.binary</groupId>
@@ -41,4 +80,42 @@
         <maven.compiler.target>18</maven.compiler.target>
         <exec.mainClass>com.mycompany.scdproject.SCDProject</exec.mainClass>
     </properties>
+    <build>
+    	<plugins>
+                <plugin>
+                     <groupId>org.apache.maven.plugins</groupId>
+                     <artifactId>maven-surefire-plugin</artifactId>
+                     <version>3.0.0-M7</version>
+                </plugin>
+                <plugin>
+		        <groupId>org.jacoco</groupId>
+		        <artifactId>jacoco-maven-plugin</artifactId>
+		        <version>0.8.4</version>
+                        <configuration>
+                        <includes>
+                            <include>test-classes/*</include>
+                        </includes>
+                        </configuration>
+		        <executions>
+		            <execution>
+		                <goals>
+		                    <goal>prepare-agent</goal>
+		                </goals>
+		            </execution>
+		            <execution>
+		                <id>report</id>
+		                <phase>prepare-package</phase>
+		                <goals>
+		                    <goal>report</goal>
+		                </goals>
+                                <configuration>
+                        <includes>
+                            <include>test-classes/*</include>
+                        </includes>
+                                </configuration>
+		            </execution>
+		        </executions>
+		    </plugin>
+	    </plugins>
+    </build>
 </project>

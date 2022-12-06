@@ -1,5 +1,15 @@
 package com.mycompany.scdproject;
 
+import static com.mycompany.scdproject.SCDProject.dbpassword;
+import static com.mycompany.scdproject.SCDProject.dbusername;
+import static com.mycompany.scdproject.SCDProject.url;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.swing.JOptionPane;
 
 public class LOGIN extends javax.swing.JFrame 
@@ -48,7 +58,7 @@ public class LOGIN extends javax.swing.JFrame
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home");
         setBackground(new java.awt.Color(153, 0, 0));
-        setPreferredSize(new java.awt.Dimension(1024, 768));
+        setPreferredSize(new java.awt.Dimension(1549, 844));
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         LoginPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -121,8 +131,6 @@ public class LOGIN extends javax.swing.JFrame
         UPassword.setText("Password");
         UPassword.setIconTextGap(16);
         Form.add(UPassword);
-
-        Password.setText("jPasswordField1");
         Form.add(Password);
 
         Buttons.setBackground(new java.awt.Color(255, 255, 255));
@@ -372,7 +380,43 @@ public class LOGIN extends javax.swing.JFrame
     }//GEN-LAST:event_IDActionPerformed
 
     private void LOGINBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LOGINBActionPerformed
-        // TODO add your handling code here:
+
+        String A = UserType.getSelectedItem().toString();
+        String C = ID.getText();
+        String query = " ";
+        boolean status=false;
+        try (Connection con = DriverManager.getConnection(url, dbusername, dbpassword); Statement st = con.createStatement();) 
+            {
+                if(A.equalsIgnoreCase("Admin"))
+                    query = "select * from LOGINADMIN where name=? and pass= ?";
+                else if (A.equalsIgnoreCase("Entry Operator"))
+                    query= "select * from users where username=? and password=?";
+                PreparedStatement ps;
+                ps = con.prepareStatement(query);
+                String B=String.valueOf(Password.getPassword());
+                ps.setString(1,C);
+                ps.setString(2, B);
+                ResultSet rs = ps.executeQuery();
+                if(rs.next() == true)
+                {
+                    status = true;
+                    if(A.equalsIgnoreCase("Admin"))
+                    {
+                        new APageV().setVisible(true);
+                        this.dispose();
+                    }
+                    else if (A.equalsIgnoreCase("Entry Operator"))
+                    {
+                        new EntryOperator().setVisible(true);
+                        this.dispose();
+                    }
+                }
+                con.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
     }//GEN-LAST:event_LOGINBActionPerformed
 
     private void CancelBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelBActionPerformed

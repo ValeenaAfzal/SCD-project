@@ -33,7 +33,6 @@ public class Loading extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(768, 430));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -46,7 +45,8 @@ public class Loading extends javax.swing.JFrame {
         Load.setForeground(new java.awt.Color(153, 0, 0));
         Load.setText("%");
 
-        Progressbar.setBackground(new java.awt.Color(153, 0, 0));
+        Progressbar.setBackground(new java.awt.Color(255, 102, 204));
+        Progressbar.setForeground(new java.awt.Color(153, 0, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -93,6 +93,27 @@ public class Loading extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
+        Loading newLoading = new Loading();
+        newLoading.setVisible(true);
+        try
+        {
+           for(int i=0;i<=100;i++)
+           {
+               Thread.sleep(40);
+               newLoading.Progressbar.setValue(i);
+               newLoading.Load.setText(Integer.toString(i)+"%");
+               
+               
+           }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+        new LOGIN().setVisible(true);
+        newLoading.dispose();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -116,12 +137,12 @@ public class Loading extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the form 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Loading().setVisible(true);
             }
-        });
+        });*/
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
