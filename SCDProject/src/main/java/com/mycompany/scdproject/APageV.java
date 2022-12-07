@@ -878,7 +878,6 @@ public class APageV extends javax.swing.JFrame {
         MyProfileBtn = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         DEOsBtn = new javax.swing.JButton();
-        ManageShipmentsBtn = new javax.swing.JButton();
         Inventory = new javax.swing.JButton();
         Orders = new javax.swing.JButton();
         Mails = new javax.swing.JButton();
@@ -928,21 +927,6 @@ public class APageV extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jLabel29 = new javax.swing.JLabel();
-        ManageShipmentsPanel = new javax.swing.JPanel();
-        jTextField13 = new javax.swing.JTextField();
-        jTextField14 = new javax.swing.JTextField();
-        jTextField15 = new javax.swing.JTextField();
-        jLabel30 = new javax.swing.JLabel();
-        jLabel31 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
-        MButtonsP1 = new javax.swing.JPanel();
-        ButtonsInv1 = new javax.swing.JPanel();
-        jButton11 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jLabel33 = new javax.swing.JLabel();
         MailPanel = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -1078,7 +1062,7 @@ public class APageV extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 660, 200, 50));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 560, 200, 50));
 
         DEOsBtn.setBackground(new java.awt.Color(153, 0, 0));
         DEOsBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -1098,24 +1082,6 @@ public class APageV extends javax.swing.JFrame {
         });
         jPanel1.add(DEOsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 200, 50));
 
-        ManageShipmentsBtn.setBackground(new java.awt.Color(153, 0, 0));
-        ManageShipmentsBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        ManageShipmentsBtn.setForeground(new java.awt.Color(255, 255, 255));
-        ManageShipmentsBtn.setIcon(new javax.swing.ImageIcon("C:\\Users\\Valeena Afzal\\Documents\\NetBeansProjects\\SCDProject\\src\\main\\java\\com\\mycompany\\Images\\icons8-order-30.png")); // NOI18N
-        ManageShipmentsBtn.setText("Manage Shipments");
-        ManageShipmentsBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        ManageShipmentsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ManageShipmentsBtnMouseClicked(evt);
-            }
-        });
-        ManageShipmentsBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ManageShipmentsBtnActionPerformed(evt);
-            }
-        });
-        jPanel1.add(ManageShipmentsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 200, 50));
-
         Inventory.setBackground(new java.awt.Color(153, 0, 0));
         Inventory.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         Inventory.setForeground(new java.awt.Color(255, 255, 255));
@@ -1127,7 +1093,7 @@ public class APageV extends javax.swing.JFrame {
                 InventoryActionPerformed(evt);
             }
         });
-        jPanel1.add(Inventory, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 450, 200, -1));
+        jPanel1.add(Inventory, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 200, -1));
 
         Orders.setBackground(new java.awt.Color(153, 0, 0));
         Orders.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -1140,7 +1106,7 @@ public class APageV extends javax.swing.JFrame {
                 OrdersActionPerformed(evt);
             }
         });
-        jPanel1.add(Orders, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, 200, -1));
+        jPanel1.add(Orders, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 430, 200, -1));
 
         Mails.setBackground(new java.awt.Color(153, 0, 0));
         Mails.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -1153,7 +1119,7 @@ public class APageV extends javax.swing.JFrame {
                 MailsActionPerformed(evt);
             }
         });
-        jPanel1.add(Mails, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 600, 200, -1));
+        jPanel1.add(Mails, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 500, 200, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1, 240, 740));
 
@@ -1438,112 +1404,6 @@ public class APageV extends javax.swing.JFrame {
         DEOPanel.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 130, 100, 40));
 
         jLayeredPane1.add(DEOPanel, "card4");
-
-        ManageShipmentsPanel.setBackground(new java.awt.Color(153, 0, 0));
-        ManageShipmentsPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jTextField13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField13ActionPerformed(evt);
-            }
-        });
-        ManageShipmentsPanel.add(jTextField13, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 90, 200, -1));
-
-        jTextField14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField14ActionPerformed(evt);
-            }
-        });
-        ManageShipmentsPanel.add(jTextField14, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 180, -1));
-
-        jTextField15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField15ActionPerformed(evt);
-            }
-        });
-        ManageShipmentsPanel.add(jTextField15, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 90, 180, -1));
-
-        jLabel30.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel30.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel30.setText("OrderedBy:");
-        ManageShipmentsPanel.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 80, 100, 40));
-
-        jLabel31.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel31.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel31.setText("Quanitiy:");
-        ManageShipmentsPanel.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 110, 40));
-
-        jLabel32.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel32.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel32.setText("ID:");
-        ManageShipmentsPanel.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 110, 40));
-
-        MButtonsP1.setBackground(new java.awt.Color(255, 255, 255));
-        MButtonsP1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 5));
-
-        ButtonsInv1.setBackground(new java.awt.Color(255, 255, 255));
-        ButtonsInv1.setLayout(new java.awt.GridLayout(1, 0, 30, 0));
-
-        jButton11.setBackground(new java.awt.Color(153, 0, 0));
-        jButton11.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton11.setForeground(new java.awt.Color(255, 255, 255));
-        jButton11.setText("View");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
-            }
-        });
-        ButtonsInv1.add(jButton11);
-
-        jButton6.setBackground(new java.awt.Color(153, 0, 0));
-        jButton6.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Add");
-        ButtonsInv1.add(jButton6);
-
-        jButton7.setBackground(new java.awt.Color(153, 0, 0));
-        jButton7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Edit");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-        ButtonsInv1.add(jButton7);
-
-        jButton8.setBackground(new java.awt.Color(153, 0, 0));
-        jButton8.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("Delete");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-        ButtonsInv1.add(jButton8);
-
-        jButton9.setBackground(new java.awt.Color(153, 0, 0));
-        jButton9.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setText("Save");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
-        ButtonsInv1.add(jButton9);
-
-        MButtonsP1.add(ButtonsInv1);
-
-        ManageShipmentsPanel.add(MButtonsP1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, -1, -1));
-
-        jLabel33.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel33.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel33.setText("Order Date:");
-        ManageShipmentsPanel.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 130, 100, 40));
-
-        jLayeredPane1.add(ManageShipmentsPanel, "card4");
 
         MailPanel.setBackground(new java.awt.Color(255, 255, 255));
         MailPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -2250,6 +2110,7 @@ public class APageV extends javax.swing.JFrame {
 
     private void MyProfileBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MyProfileBtnMouseClicked
         switchPanel(MyProfilePanel);
+        
     }//GEN-LAST:event_MyProfileBtnMouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
@@ -2263,14 +2124,6 @@ public class APageV extends javax.swing.JFrame {
     private void DEOsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DEOsBtnActionPerformed
         switchPanel(DEOPanel);
     }//GEN-LAST:event_DEOsBtnActionPerformed
-
-    private void ManageShipmentsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManageShipmentsBtnMouseClicked
-        switchPanel(ManageShipmentsPanel);
-    }//GEN-LAST:event_ManageShipmentsBtnMouseClicked
-
-    private void ManageShipmentsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManageShipmentsBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ManageShipmentsBtnActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -2352,30 +2205,6 @@ public class APageV extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rSMaterialButtonRectangle2ActionPerformed
 
-    private void jTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField13ActionPerformed
-
-    private void jTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField14ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField14ActionPerformed
-
-    private void jTextField15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField15ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField15ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
-
     private void rSPasswordTextPlaceHolder3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSPasswordTextPlaceHolder3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rSPasswordTextPlaceHolder3ActionPerformed
@@ -2383,10 +2212,6 @@ public class APageV extends javax.swing.JFrame {
     private void rSMaterialButtonRectangle3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonRectangle3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rSMaterialButtonRectangle3ActionPerformed
-
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
 
     private void InventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InventoryActionPerformed
         switchPanel(InventoryPanel);
@@ -2499,7 +2324,6 @@ public class APageV extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddOrder;
     private javax.swing.JPanel ButtonsInv;
-    private javax.swing.JPanel ButtonsInv1;
     private javax.swing.JPanel ButtonsInv2;
     private javax.swing.JPanel ButtonsInv3;
     private javax.swing.JLabel CNIC;
@@ -2527,7 +2351,6 @@ public class APageV extends javax.swing.JFrame {
     private javax.swing.JButton Inventory;
     private javax.swing.JPanel InventoryPanel;
     private javax.swing.JPanel MButtonsP;
-    private javax.swing.JPanel MButtonsP1;
     private javax.swing.JPanel MButtonsP2;
     private javax.swing.JPanel MButtonsP3;
     private javax.swing.JPanel MailPanel;
@@ -2536,8 +2359,6 @@ public class APageV extends javax.swing.JFrame {
     private javax.swing.JPanel Manage1;
     private javax.swing.JPanel ManageInv;
     private javax.swing.JPanel ManageInv1;
-    private javax.swing.JButton ManageShipmentsBtn;
-    private javax.swing.JPanel ManageShipmentsPanel;
     private javax.swing.JButton MyProfileBtn;
     private javax.swing.JPanel MyProfilePanel;
     private javax.swing.JLabel Name;
@@ -2560,7 +2381,6 @@ public class APageV extends javax.swing.JFrame {
     private javax.swing.JPanel ViewInv1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
@@ -2569,10 +2389,6 @@ public class APageV extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -2599,10 +2415,6 @@ public class APageV extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -2621,9 +2433,6 @@ public class APageV extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;

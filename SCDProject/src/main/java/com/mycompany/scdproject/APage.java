@@ -58,35 +58,21 @@ public class APage extends javax.swing.JFrame {
         
         //Layers = new javax.swing.JLayeredPane();
         OrderPanel = new javax.swing.JPanel();
-        Manage1 = new javax.swing.JPanel();
-        CalenderPanel = new javax.swing.JPanel();
-        OrderDate = new javax.swing.JLabel();
+       
         JDayChooser jDayChooser2 = new com.toedter.calendar.JDayChooser();
-        Formpanel1 = new javax.swing.JPanel();
-        ManageInv1 = new javax.swing.JPanel();
-        InvType1 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        Name1 = new javax.swing.JLabel();
+        
         jTextField5 = new javax.swing.JTextField();
-        Category1 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        Quantity1 = new javax.swing.JLabel();
+        
         jTextField6 = new javax.swing.JTextField();
-        Price1 = new javax.swing.JLabel();
+      
         jTextField7 = new javax.swing.JTextField();
-        CNIC = new javax.swing.JLabel();
+       
         jTextField8 = new javax.swing.JTextField();
-        InvHeadingP1 = new javax.swing.JPanel();
-        Heading2 = new javax.swing.JLabel();
+       
         MButtonsP2 = new javax.swing.JPanel();
         ButtonsInv2 = new javax.swing.JPanel();
-        AddOrder = new javax.swing.JButton();
-        EditOrder = new javax.swing.JButton();
-        DeleteOrder = new javax.swing.JButton();
-        PrintOrder = new javax.swing.JButton();
-        ClearOrder = new javax.swing.JButton();
+       
         ViewInv1 = new javax.swing.JPanel();
-        HeadingPanel1 = new javax.swing.JPanel();
         Heading3 = new javax.swing.JLabel();
         TablePanel1 = new javax.swing.JPanel();
         PTable1 = new javax.swing.JScrollPane();
@@ -156,18 +142,7 @@ public class APage extends javax.swing.JFrame {
         CalenderPanel.add(OrderDate);
 
         jDayChooser2.setBackground(new java.awt.Color(255, 255, 255));
-        CalenderPanel.add(jDayChooser2);
-
-        Formpanel1.setBackground(new java.awt.Color(255, 255, 255));
-        Formpanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-        ManageInv1.setBackground(new java.awt.Color(255, 255, 255));
-        ManageInv1.setLayout(new java.awt.GridLayout(3, 4, 15, 30));
-
-        InvType1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        InvType1.setForeground(new java.awt.Color(153, 0, 0));
-        InvType1.setText("Select Type");
-        ManageInv1.add(InvType1);
+        
 
         jComboBox3.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jComboBox3.setForeground(new java.awt.Color(153, 0, 0));
@@ -1010,7 +985,6 @@ public class APage extends javax.swing.JFrame {
         MyProfilePanel = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -1021,6 +995,7 @@ public class APage extends javax.swing.JFrame {
         jLabel27 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
+        jTextField20 = new javax.swing.JTextField();
         DEOPanel = new javax.swing.JPanel();
         jTextField5 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
@@ -1092,38 +1067,11 @@ public class APage extends javax.swing.JFrame {
         PTable = new javax.swing.JScrollPane();
         Tables = new javax.swing.JTable();
         OrderPanel = new javax.swing.JPanel();
-        Manage1 = new javax.swing.JPanel();
-        CalenderPanel = new javax.swing.JPanel();
-        OrderDate = new javax.swing.JLabel();
-        Formpanel1 = new javax.swing.JPanel();
-        ManageInv1 = new javax.swing.JPanel();
-        InvType1 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        Name1 = new javax.swing.JLabel();
-        jTextField20 = new javax.swing.JTextField();
-        Category1 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        Quantity1 = new javax.swing.JLabel();
-        jTextField21 = new javax.swing.JTextField();
-        Price1 = new javax.swing.JLabel();
-        jTextField22 = new javax.swing.JTextField();
-        CNIC = new javax.swing.JLabel();
-        jTextField23 = new javax.swing.JTextField();
-        InvHeadingP1 = new javax.swing.JPanel();
-        Heading2 = new javax.swing.JLabel();
-        MButtonsP3 = new javax.swing.JPanel();
-        ButtonsInv3 = new javax.swing.JPanel();
-        AddOrder = new javax.swing.JButton();
-        EditOrder = new javax.swing.JButton();
-        DeleteOrder = new javax.swing.JButton();
-        PrintOrder = new javax.swing.JButton();
-        ClearOrder = new javax.swing.JButton();
         ViewInv1 = new javax.swing.JPanel();
-        HeadingPanel1 = new javax.swing.JPanel();
-        Heading3 = new javax.swing.JLabel();
         TablePanel1 = new javax.swing.JPanel();
         PTable1 = new javax.swing.JScrollPane();
         Tables1 = new javax.swing.JTable();
+        Heading3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -1369,15 +1317,6 @@ public class APage extends javax.swing.JFrame {
         });
         MyProfilePanel.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 380, 250, -1));
 
-        jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField4.setText("Rameen");
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
-        MyProfilePanel.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 150, -1));
-
         jLabel16.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Email");
@@ -1391,7 +1330,7 @@ public class APage extends javax.swing.JFrame {
         jLabel18.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("Profile Picture");
-        MyProfilePanel.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 200, 120, 30));
+        MyProfilePanel.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 210, 120, 30));
 
         jTextField11.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jTextField11.setText("  Search");
@@ -1439,6 +1378,15 @@ public class APage extends javax.swing.JFrame {
         jLabel28.setForeground(new java.awt.Color(255, 255, 255));
         jLabel28.setText("Name");
         MyProfilePanel.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 160, 120, 30));
+
+        jTextField20.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextField20.setText("Rameen");
+        jTextField20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField20ActionPerformed(evt);
+            }
+        });
+        MyProfilePanel.add(jTextField20, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 150, -1));
 
         jLayeredPane1.add(MyProfilePanel, "card3");
 
@@ -2051,194 +1999,8 @@ public class APage extends javax.swing.JFrame {
         OrderPanel.setBackground(new java.awt.Color(255, 255, 255));
         OrderPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Manage1.setBackground(new java.awt.Color(255, 255, 255));
-        Manage1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        CalenderPanel.setBackground(new java.awt.Color(255, 255, 255));
-        CalenderPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        OrderDate.setBackground(new java.awt.Color(255, 255, 255));
-        OrderDate.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        OrderDate.setForeground(new java.awt.Color(153, 0, 0));
-        OrderDate.setText("Date");
-        OrderDate.setPreferredSize(new java.awt.Dimension(130, 50));
-        CalenderPanel.add(OrderDate);
-
-        Formpanel1.setBackground(new java.awt.Color(255, 255, 255));
-        Formpanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-        ManageInv1.setBackground(new java.awt.Color(255, 255, 255));
-        ManageInv1.setLayout(new java.awt.GridLayout(3, 4, 15, 30));
-
-        InvType1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        InvType1.setForeground(new java.awt.Color(153, 0, 0));
-        InvType1.setText("Select Type");
-        ManageInv1.add(InvType1);
-
-        jComboBox3.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jComboBox3.setForeground(new java.awt.Color(153, 0, 0));
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fruit Trees", "Trees", "Shrubs", "Herbs", "Climbers", "Creepers", "None" }));
-        ManageInv1.add(jComboBox3);
-
-        Name1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        Name1.setForeground(new java.awt.Color(153, 0, 0));
-        Name1.setText("Name");
-        ManageInv1.add(Name1);
-
-        jTextField20.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jTextField20.setForeground(new java.awt.Color(153, 0, 0));
-        ManageInv1.add(jTextField20);
-
-        Category1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        Category1.setForeground(new java.awt.Color(153, 0, 0));
-        Category1.setText("Category");
-        ManageInv1.add(Category1);
-
-        jComboBox4.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jComboBox4.setForeground(new java.awt.Color(153, 0, 0));
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Plants", "Seeds", "Tools" }));
-        ManageInv1.add(jComboBox4);
-
-        Quantity1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        Quantity1.setForeground(new java.awt.Color(153, 0, 0));
-        Quantity1.setText("Quantity");
-        ManageInv1.add(Quantity1);
-
-        jTextField21.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jTextField21.setForeground(new java.awt.Color(153, 0, 0));
-        ManageInv1.add(jTextField21);
-
-        Price1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        Price1.setForeground(new java.awt.Color(153, 0, 0));
-        Price1.setText("Price");
-        ManageInv1.add(Price1);
-
-        jTextField22.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jTextField22.setForeground(new java.awt.Color(153, 0, 0));
-        ManageInv1.add(jTextField22);
-
-        CNIC.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        CNIC.setForeground(new java.awt.Color(153, 0, 0));
-        CNIC.setText("CNIC");
-        ManageInv1.add(CNIC);
-
-        jTextField23.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jTextField23.setForeground(new java.awt.Color(153, 0, 0));
-        ManageInv1.add(jTextField23);
-
-        Formpanel1.add(ManageInv1);
-
-        InvHeadingP1.setBackground(new java.awt.Color(255, 255, 255));
-
-        Heading2.setBackground(new java.awt.Color(153, 0, 0));
-        Heading2.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        Heading2.setForeground(new java.awt.Color(153, 0, 0));
-        Heading2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Heading2.setText("Manage Orders");
-        InvHeadingP1.add(Heading2);
-
-        MButtonsP3.setBackground(new java.awt.Color(255, 255, 255));
-        MButtonsP3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 5));
-
-        ButtonsInv3.setBackground(new java.awt.Color(255, 255, 255));
-        ButtonsInv3.setLayout(new java.awt.GridLayout(1, 0, 30, 0));
-
-        AddOrder.setBackground(new java.awt.Color(153, 0, 0));
-        AddOrder.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        AddOrder.setForeground(new java.awt.Color(255, 255, 255));
-        AddOrder.setText("Add");
-        ButtonsInv3.add(AddOrder);
-
-        EditOrder.setBackground(new java.awt.Color(153, 0, 0));
-        EditOrder.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        EditOrder.setForeground(new java.awt.Color(255, 255, 255));
-        EditOrder.setText("Edit");
-        EditOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EditOrderActionPerformed(evt);
-            }
-        });
-        ButtonsInv3.add(EditOrder);
-
-        DeleteOrder.setBackground(new java.awt.Color(153, 0, 0));
-        DeleteOrder.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        DeleteOrder.setForeground(new java.awt.Color(255, 255, 255));
-        DeleteOrder.setText("Delete");
-        DeleteOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeleteOrderActionPerformed(evt);
-            }
-        });
-        ButtonsInv3.add(DeleteOrder);
-
-        PrintOrder.setBackground(new java.awt.Color(153, 0, 0));
-        PrintOrder.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        PrintOrder.setForeground(new java.awt.Color(255, 255, 255));
-        PrintOrder.setText("Print");
-        PrintOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PrintOrderActionPerformed(evt);
-            }
-        });
-        ButtonsInv3.add(PrintOrder);
-
-        ClearOrder.setBackground(new java.awt.Color(153, 0, 0));
-        ClearOrder.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        ClearOrder.setForeground(new java.awt.Color(255, 255, 255));
-        ClearOrder.setText("Clear");
-        ButtonsInv3.add(ClearOrder);
-
-        MButtonsP3.add(ButtonsInv3);
-
-        javax.swing.GroupLayout Manage1Layout = new javax.swing.GroupLayout(Manage1);
-        Manage1.setLayout(Manage1Layout);
-        Manage1Layout.setHorizontalGroup(
-            Manage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(InvHeadingP1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(MButtonsP3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1126, Short.MAX_VALUE)
-            .addGroup(Manage1Layout.createSequentialGroup()
-                .addComponent(Formpanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 624, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(CalenderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        Manage1Layout.setVerticalGroup(
-            Manage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Manage1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(InvHeadingP1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(Manage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(Formpanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CalenderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(62, 62, 62)
-                .addComponent(MButtonsP3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(68, Short.MAX_VALUE))
-        );
-
-        OrderPanel.add(Manage1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1130, 410));
-
         ViewInv1.setBackground(new java.awt.Color(255, 255, 255));
         ViewInv1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        HeadingPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        Heading3.setBackground(new java.awt.Color(153, 0, 0));
-        Heading3.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        Heading3.setForeground(new java.awt.Color(153, 0, 0));
-        Heading3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Heading3.setText("Inventory List");
-
-        javax.swing.GroupLayout HeadingPanel1Layout = new javax.swing.GroupLayout(HeadingPanel1);
-        HeadingPanel1.setLayout(HeadingPanel1Layout);
-        HeadingPanel1Layout.setHorizontalGroup(
-            HeadingPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Heading3, javax.swing.GroupLayout.PREFERRED_SIZE, 1126, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        HeadingPanel1Layout.setVerticalGroup(
-            HeadingPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Heading3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
 
         TablePanel1.setBackground(new java.awt.Color(255, 255, 255));
         TablePanel1.setForeground(new java.awt.Color(153, 0, 0));
@@ -2279,18 +2041,23 @@ public class APage extends javax.swing.JFrame {
         ViewInv1.setLayout(ViewInv1Layout);
         ViewInv1Layout.setHorizontalGroup(
             ViewInv1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(HeadingPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(TablePanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         ViewInv1Layout.setVerticalGroup(
             ViewInv1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ViewInv1Layout.createSequentialGroup()
-                .addComponent(HeadingPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(204, 204, 204)
                 .addComponent(TablePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         OrderPanel.add(ViewInv1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 407, 1130, 300));
+
+        Heading3.setBackground(new java.awt.Color(153, 0, 0));
+        Heading3.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        Heading3.setForeground(new java.awt.Color(153, 0, 0));
+        Heading3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Heading3.setText("Inventory List");
+        OrderPanel.add(Heading3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 1126, 54));
 
         jLayeredPane1.add(OrderPanel, "card3");
 
@@ -2341,6 +2108,9 @@ public class APage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void MyProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MyProfileBtnActionPerformed
+        
+
+
         // TODO add your handling code here:
     }//GEN-LAST:event_MyProfileBtnActionPerformed
 
@@ -2351,10 +2121,6 @@ public class APage extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
@@ -2483,68 +2249,9 @@ public class APage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton14ActionPerformed
 
-    private void EditOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditOrderActionPerformed
+    private void jTextField20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField20ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_EditOrderActionPerformed
-
-    private void DeleteOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteOrderActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DeleteOrderActionPerformed
-
-    private void PrintOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintOrderActionPerformed
-        
-        String input = "";
-        input = JOptionPane.showInputDialog(null, "Enter File Name for the pdf:");
-        if(input.length() == 0)
-            input = "myPdf";
-        System.out.println(input);
-        
-        String path = "";
-        JFileChooser j = new JFileChooser();
-        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int  x =j.showSaveDialog(this);
-        if(x == JFileChooser.APPROVE_OPTION)
-            path = j.getSelectedFile().getPath();
-        
-        Document doc  = new Document();
-        try 
-        {
-            //System.out.println(path + "\'mydocomg.docx"); 
-            PdfWriter.getInstance(doc, new FileOutputStream(path + "\\" + input + ".pdf"));
-            doc.open();
-            int n = Tables1.getColumnCount();
-            int m = 2;//Tables1. getRowCount();
-            System.out.println("No of cokumsn: " + n);
-            System.out.println("No of rows: " + m);
-            System.out.println("No of rows: " + Tables1. getRowCount());
-            
-            PdfPTable tb = new PdfPTable(n);
-            for(int i = 0; i < n;i++)
-                tb.addCell(Tables1.getColumnName(i));
-            
-            String value = "";
-            for(int y = 0; y < m ; y++ )
-            {
-                for(int  z = 0; z < n; z++)
-                {
-                    
-                    value = Tables1.getValueAt(y,z).toString(); 
-                    System.out.println("Value " + value);
-                    tb.addCell(value);
-                }
-            }
-            doc.add(tb);
-            JOptionPane.showMessageDialog(null,"Pdf gnerated");
-            
-            
-        } 
-        catch (FileNotFoundException | DocumentException ex) 
-        {
-            JOptionPane.showMessageDialog(null,"there is some issue");
-            
-        }
-        doc.close();
-    }//GEN-LAST:event_PrintOrderActionPerformed
+    }//GEN-LAST:event_jTextField20ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -2612,61 +2319,40 @@ public class APage extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AddOrder;
     private javax.swing.JPanel ButtonsInv;
     private javax.swing.JPanel ButtonsInv1;
     private javax.swing.JPanel ButtonsInv2;
-    private javax.swing.JPanel ButtonsInv3;
-    private javax.swing.JLabel CNIC;
-    private javax.swing.JPanel CalenderPanel;
     private javax.swing.JLabel Category;
-    private javax.swing.JLabel Category1;
-    private javax.swing.JButton ClearOrder;
     private javax.swing.JPanel DEOPanel;
     private javax.swing.JButton DEOsBtn;
     private javax.swing.JButton DashBoardBtn;
     private javax.swing.JPanel DashBoardPanel;
-    private javax.swing.JButton DeleteOrder;
-    private javax.swing.JButton EditOrder;
-    private javax.swing.JPanel Formpanel1;
     private javax.swing.JLabel Heading;
     private javax.swing.JLabel Heading1;
-    private javax.swing.JLabel Heading2;
     private javax.swing.JLabel Heading3;
     private javax.swing.JPanel HeadingPanel;
-    private javax.swing.JPanel HeadingPanel1;
     private javax.swing.JPanel InvHeadingP;
-    private javax.swing.JPanel InvHeadingP1;
     private javax.swing.JLabel InvType;
-    private javax.swing.JLabel InvType1;
     private javax.swing.JButton Inventory;
     private javax.swing.JPanel InventoryPanel;
     private javax.swing.JPanel MButtonsP;
     private javax.swing.JPanel MButtonsP1;
     private javax.swing.JPanel MButtonsP2;
-    private javax.swing.JPanel MButtonsP3;
     private javax.swing.JPanel MailPanel;
     private javax.swing.JButton Mails;
     private javax.swing.JPanel Manage;
-    private javax.swing.JPanel Manage1;
     private javax.swing.JPanel ManageInv;
-    private javax.swing.JPanel ManageInv1;
     private javax.swing.JButton ManageShipmentsBtn;
     private javax.swing.JPanel ManageShipmentsPanel;
     private javax.swing.JButton MyProfileBtn;
     private javax.swing.JPanel MyProfilePanel;
     private javax.swing.JLabel Name;
-    private javax.swing.JLabel Name1;
-    private javax.swing.JLabel OrderDate;
     private javax.swing.JPanel OrderPanel;
     private javax.swing.JButton Orders;
     private javax.swing.JScrollPane PTable;
     private javax.swing.JScrollPane PTable1;
     private javax.swing.JLabel Price;
-    private javax.swing.JLabel Price1;
-    private javax.swing.JButton PrintOrder;
     private javax.swing.JLabel Quantity;
-    private javax.swing.JLabel Quantity1;
     private javax.swing.JPanel TablePanel;
     private javax.swing.JPanel TablePanel1;
     private javax.swing.JTable Tables;
@@ -2690,8 +2376,6 @@ public class APage extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -2744,11 +2428,7 @@ public class APage extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField20;
-    private javax.swing.JTextField jTextField21;
-    private javax.swing.JTextField jTextField22;
-    private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;

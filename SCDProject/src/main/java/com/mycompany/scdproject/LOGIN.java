@@ -14,10 +14,13 @@ import javax.swing.JOptionPane;
 
 public class LOGIN extends javax.swing.JFrame 
 {
+    
     public LOGIN()
     {
         initComponents();
     }
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -420,6 +423,8 @@ public class LOGIN extends javax.swing.JFrame
     }//GEN-LAST:event_LOGINBActionPerformed
 
     private void CancelBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelBActionPerformed
+        ID.setText("");
+        Password.setText("");
         // TODO add your handling code here:
     }//GEN-LAST:event_CancelBActionPerformed
 

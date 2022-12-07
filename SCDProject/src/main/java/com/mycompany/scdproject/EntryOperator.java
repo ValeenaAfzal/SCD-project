@@ -11,8 +11,11 @@ import com.itextpdf.text.pdf.PdfWriter;
 import static com.mycompany.scdproject.SCDProject.dbpassword;
 import static com.mycompany.scdproject.SCDProject.dbusername;
 import static com.mycompany.scdproject.SCDProject.url;
+import java.awt.Color;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,6 +25,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -87,8 +97,8 @@ public class EntryOperator extends javax.swing.JFrame {
             St = Con.createStatement();
             Rs =St.executeQuery("Select * from Orders");
             DefaultTableModel model = new DefaultTableModel();
-                String[] columnNames = {"ID","Type", "Name", "Category", "Quantity","Price","Date","Delivery Date"
-                        , "CNIC"};
+                String[] columnNames = {"ID","Type", "Name", "Category", "Quantity","CNIC","Date","Price"
+                        , "Status","Delivery Date"};
                 model.setColumnIdentifiers(columnNames);
                 Tables1.setModel(model);
 
@@ -99,7 +109,7 @@ public class EntryOperator extends javax.swing.JFrame {
 
                 model.addRow(new Object[]{Rs.getString(1), Rs.getString(2), Rs.getString(3)
                         , Rs.getString(4),Rs.getString(5),Rs.getString(6),Rs.getString(7),
-                Rs.getString(8),Rs.getString(9)});
+                Rs.getString(8),Rs.getString(9),Rs.getString(10)});
                 
                 //System.out.println(Rs.getString(1)+" "+Rs.getString(2)+" "+Rs.getString(3)); 
             }
@@ -114,7 +124,118 @@ public class EntryOperator extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    
+    
 
+    public void GenerateOPdf()
+    {
+        String input = "";
+        input = JOptionPane.showInputDialog(null, "Enter File Name for the pdf:");
+        if(input.length() == 0)
+            input = "myPdf";
+        System.out.println(input);
+        
+        String path = "";
+        JFileChooser j = new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int  x =j.showSaveDialog(this);
+        if(x == JFileChooser.APPROVE_OPTION)
+            path = j.getSelectedFile().getPath();
+        
+        Document doc  = new Document();
+        try 
+        {
+            //System.out.println(path + "\'mydocomg.docx"); 
+            PdfWriter.getInstance(doc, new FileOutputStream(path + "\\" + input + ".pdf"));
+            doc.open();
+            if(Tables1.getRowCount() >0){
+            int n = Tables1.getColumnCount();
+            int m= Tables1. getRowCount();
+            System.out.println("No of cokumsn: " + n);
+            System.out.println("No of rows: " + m);
+            System.out.println("No of rows: " + Tables1. getRowCount());
+            
+            PdfPTable tb = new PdfPTable(n);
+            for(int i = 0; i < n;i++)
+                tb.addCell(Tables2.getColumnName(i));
+            
+            String value = "";
+            for(int y = 0; y < m ; y++ )
+            {
+                for(int  z = 0; z < n; z++)
+                {
+                    
+                    value = Tables1.getValueAt(y,z).toString(); 
+                    System.out.println("Value " + value);
+                    tb.addCell(value);
+                }
+            }
+            doc.add(tb);
+            JOptionPane.showMessageDialog(null,"Pdf gnerated");
+            }
+            
+        } 
+        catch (FileNotFoundException | DocumentException ex) 
+        {
+            JOptionPane.showMessageDialog(null,"there is some issue");
+            
+        }
+        doc.close();
+    }
+    public void GeneratePdf()
+    {
+        String input = "";
+        input = JOptionPane.showInputDialog(null, "Enter File Name for the pdf:");
+        if(input.length() == 0)
+            input = "myPdf";
+        System.out.println(input);
+        
+        String path = "";
+        JFileChooser j = new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int  x =j.showSaveDialog(this);
+        if(x == JFileChooser.APPROVE_OPTION)
+            path = j.getSelectedFile().getPath();
+        
+        Document doc  = new Document();
+        try 
+        {
+            //System.out.println(path + "\'mydocomg.docx"); 
+            PdfWriter.getInstance(doc, new FileOutputStream(path + "\\" + input + ".pdf"));
+            doc.open();
+            int n = Tables2.getColumnCount();
+            int m= Tables2. getRowCount();
+            System.out.println("No of cokumsn: " + n);
+            System.out.println("No of rows: " + m);
+            System.out.println("No of rows: " + Tables2. getRowCount());
+            
+            PdfPTable tb = new PdfPTable(n);
+            for(int i = 0; i < n;i++)
+                tb.addCell(Tables2.getColumnName(i));
+            
+            String value = "";
+            for(int y = 0; y < m ; y++ )
+            {
+                for(int  z = 0; z < n; z++)
+                {
+                    
+                    value = Tables2.getValueAt(y,z).toString(); 
+                    System.out.println("Value " + value);
+                    tb.addCell(value);
+                }
+            }
+            doc.add(tb);
+            JOptionPane.showMessageDialog(null,"Pdf gnerated");
+            
+            
+        } 
+        catch (FileNotFoundException | DocumentException ex) 
+        {
+            JOptionPane.showMessageDialog(null,"there is some issue");
+            
+        }
+        doc.close();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -130,6 +251,8 @@ public class EntryOperator extends javax.swing.JFrame {
         Manage = new javax.swing.JPanel();
         Formpanel = new javax.swing.JPanel();
         ManageInv = new javax.swing.JPanel();
+        editlabel = new javax.swing.JLabel();
+        editfield = new javax.swing.JTextField();
         InvType = new javax.swing.JLabel();
         plantType = new javax.swing.JComboBox<>();
         Name = new javax.swing.JLabel();
@@ -140,6 +263,10 @@ public class EntryOperator extends javax.swing.JFrame {
         plantQuantity = new javax.swing.JTextField();
         Price = new javax.swing.JLabel();
         plantPrice = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        editbutton = new javax.swing.JLabel();
+        QV1 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         MButtonsP = new javax.swing.JPanel();
         ButtonsInv = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -152,11 +279,13 @@ public class EntryOperator extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         Search = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        SearchInv = new javax.swing.JTextField();
         OrderPanel = new javax.swing.JPanel();
         Manage1 = new javax.swing.JPanel();
         Formpanel1 = new javax.swing.JPanel();
         ManageInv1 = new javax.swing.JPanel();
+        editlabel1 = new javax.swing.JLabel();
+        editfield1 = new javax.swing.JTextField();
         InvType1 = new javax.swing.JLabel();
         OplantType = new javax.swing.JComboBox<>();
         Name1 = new javax.swing.JLabel();
@@ -169,9 +298,7 @@ public class EntryOperator extends javax.swing.JFrame {
         OplantPrice = new javax.swing.JTextField();
         CNIC = new javax.swing.JLabel();
         OCNIC = new javax.swing.JTextField();
-        CalenderPanel = new javax.swing.JPanel();
-        OrderDate = new javax.swing.JLabel();
-        ODate = new com.toedter.calendar.JDayChooser();
+        editbutton1 = new javax.swing.JLabel();
         InvHeadingP1 = new javax.swing.JPanel();
         Heading2 = new javax.swing.JLabel();
         MButtonsP2 = new javax.swing.JPanel();
@@ -185,7 +312,7 @@ public class EntryOperator extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
         Search1 = new javax.swing.JButton();
-        jTextField4 = new javax.swing.JTextField();
+        SearchOrder = new javax.swing.JTextField();
         MailPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -208,6 +335,7 @@ public class EntryOperator extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         deleteInvfield = new javax.swing.JTextField();
         deleteInvButton = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         TablePanel2 = new javax.swing.JPanel();
         PTable2 = new javax.swing.JScrollPane();
         Tables2 = new javax.swing.JTable();
@@ -218,6 +346,7 @@ public class EntryOperator extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         deletefield = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         TablePanel3 = new javax.swing.JPanel();
         PTable1 = new javax.swing.JScrollPane();
         Tables1 = new javax.swing.JTable();
@@ -228,8 +357,8 @@ public class EntryOperator extends javax.swing.JFrame {
         Inventory = new javax.swing.JButton();
         Inventory1 = new javax.swing.JButton();
         Orders = new javax.swing.JButton();
-        Mails = new javax.swing.JButton();
         OrderList = new javax.swing.JButton();
+        Mails = new javax.swing.JButton();
         LogOut = new javax.swing.JButton();
         Buttons1 = new javax.swing.JPanel();
 
@@ -246,10 +375,32 @@ public class EntryOperator extends javax.swing.JFrame {
         Manage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         Formpanel.setBackground(new java.awt.Color(255, 255, 255));
+        Formpanel.setForeground(new java.awt.Color(255, 0, 0));
         Formpanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         ManageInv.setBackground(new java.awt.Color(255, 255, 255));
-        ManageInv.setLayout(new java.awt.GridLayout(5, 1, 0, 30));
+        ManageInv.setLayout(new java.awt.GridLayout(8, 1, 0, 30));
+
+        editlabel.setBackground(new java.awt.Color(255, 255, 255));
+        editlabel.setForeground(new java.awt.Color(153, 0, 0));
+        ManageInv.add(editlabel);
+
+        editfield.setForeground(new java.awt.Color(153, 0, 0));
+        editfield.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        editfield.setToolTipText("");
+        editfield.setBorder(null);
+        editfield.setCaretColor(new java.awt.Color(255, 255, 255));
+        editfield.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editfieldActionPerformed(evt);
+            }
+        });
+        editfield.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                editfieldKeyTyped(evt);
+            }
+        });
+        ManageInv.add(editfield);
 
         InvType.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         InvType.setForeground(new java.awt.Color(153, 0, 0));
@@ -287,6 +438,19 @@ public class EntryOperator extends javax.swing.JFrame {
 
         plantQuantity.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         plantQuantity.setForeground(new java.awt.Color(153, 0, 0));
+        plantQuantity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plantQuantityActionPerformed(evt);
+            }
+        });
+        plantQuantity.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                plantQuantityKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                plantQuantityKeyTyped(evt);
+            }
+        });
         ManageInv.add(plantQuantity);
 
         Price.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -296,9 +460,30 @@ public class EntryOperator extends javax.swing.JFrame {
 
         plantPrice.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         plantPrice.setForeground(new java.awt.Color(153, 0, 0));
+        plantPrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                plantPriceKeyTyped(evt);
+            }
+        });
         ManageInv.add(plantPrice);
+        ManageInv.add(jLabel11);
+
+        editbutton.setBackground(new java.awt.Color(255, 255, 255));
+        editbutton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        editbutton.setForeground(new java.awt.Color(153, 0, 0));
+        editbutton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        editbutton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editbuttonMouseClicked(evt);
+            }
+        });
+        ManageInv.add(editbutton);
+        ManageInv.add(QV1);
 
         Formpanel.add(ManageInv);
+
+        jLabel9.setText("                                                                                                            ");
+        Formpanel.add(jLabel9);
 
         MButtonsP.setBackground(new java.awt.Color(255, 255, 255));
         MButtonsP.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 5));
@@ -372,7 +557,7 @@ public class EntryOperator extends javax.swing.JFrame {
                 .addComponent(Formpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59)
                 .addComponent(MButtonsP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(424, Short.MAX_VALUE))
+                .addContainerGap(247, Short.MAX_VALUE))
         );
 
         InventoryPanel.add(Manage);
@@ -386,7 +571,7 @@ public class EntryOperator extends javax.swing.JFrame {
         jList1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jList1.setForeground(new java.awt.Color(153, 0, 0));
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "ID", "Type", "Name", "Category", "Quantity", "Price", "Date" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -395,12 +580,22 @@ public class EntryOperator extends javax.swing.JFrame {
         Search.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
         Search.setForeground(new java.awt.Color(153, 0, 0));
         Search.setText("Search");
+        Search.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SearchMouseClicked(evt);
+            }
+        });
 
-        jTextField1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(153, 0, 0));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        SearchInv.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        SearchInv.setForeground(new java.awt.Color(153, 0, 0));
+        SearchInv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                SearchInvActionPerformed(evt);
+            }
+        });
+        SearchInv.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                SearchInvKeyTyped(evt);
             }
         });
 
@@ -415,7 +610,7 @@ public class EntryOperator extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(Search)
                         .addGap(85, 85, 85)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(SearchInv, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(130, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -424,7 +619,7 @@ public class EntryOperator extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Search)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SearchInv, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(491, Short.MAX_VALUE))
@@ -457,7 +652,28 @@ public class EntryOperator extends javax.swing.JFrame {
         Formpanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         ManageInv1.setBackground(new java.awt.Color(255, 255, 255));
-        ManageInv1.setLayout(new java.awt.GridLayout(3, 4, 15, 30));
+        ManageInv1.setLayout(new java.awt.GridLayout(8, 6, 15, 30));
+
+        editlabel1.setBackground(new java.awt.Color(255, 255, 255));
+        editlabel1.setForeground(new java.awt.Color(153, 0, 0));
+        ManageInv1.add(editlabel1);
+
+        editfield1.setForeground(new java.awt.Color(153, 0, 0));
+        editfield1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        editfield1.setToolTipText("");
+        editfield1.setBorder(null);
+        editfield1.setCaretColor(new java.awt.Color(255, 255, 255));
+        editfield1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editfield1ActionPerformed(evt);
+            }
+        });
+        editfield1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                editfield1KeyTyped(evt);
+            }
+        });
+        ManageInv1.add(editfield1);
 
         InvType1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         InvType1.setForeground(new java.awt.Color(153, 0, 0));
@@ -495,6 +711,11 @@ public class EntryOperator extends javax.swing.JFrame {
 
         OplantQuantity.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         OplantQuantity.setForeground(new java.awt.Color(153, 0, 0));
+        OplantQuantity.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                OplantQuantityKeyTyped(evt);
+            }
+        });
         ManageInv1.add(OplantQuantity);
 
         Price1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -504,6 +725,11 @@ public class EntryOperator extends javax.swing.JFrame {
 
         OplantPrice.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         OplantPrice.setForeground(new java.awt.Color(153, 0, 0));
+        OplantPrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                OplantPriceKeyTyped(evt);
+            }
+        });
         ManageInv1.add(OplantPrice);
 
         CNIC.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -513,22 +739,25 @@ public class EntryOperator extends javax.swing.JFrame {
 
         OCNIC.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         OCNIC.setForeground(new java.awt.Color(153, 0, 0));
+        OCNIC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                OCNICKeyTyped(evt);
+            }
+        });
         ManageInv1.add(OCNIC);
 
+        editbutton1.setBackground(new java.awt.Color(255, 255, 255));
+        editbutton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        editbutton1.setForeground(new java.awt.Color(153, 0, 0));
+        editbutton1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        editbutton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editbutton1MouseClicked(evt);
+            }
+        });
+        ManageInv1.add(editbutton1);
+
         Formpanel1.add(ManageInv1);
-
-        CalenderPanel.setBackground(new java.awt.Color(255, 255, 255));
-        CalenderPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        OrderDate.setBackground(new java.awt.Color(255, 255, 255));
-        OrderDate.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        OrderDate.setForeground(new java.awt.Color(153, 0, 0));
-        OrderDate.setText("Date");
-        OrderDate.setPreferredSize(new java.awt.Dimension(130, 50));
-        CalenderPanel.add(OrderDate);
-
-        ODate.setBackground(new java.awt.Color(255, 255, 255));
-        CalenderPanel.add(ODate);
 
         InvHeadingP1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -554,12 +783,22 @@ public class EntryOperator extends javax.swing.JFrame {
                 AddOrderMouseClicked(evt);
             }
         });
+        AddOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddOrderActionPerformed(evt);
+            }
+        });
         ButtonsInv2.add(AddOrder);
 
         EditOrder.setBackground(new java.awt.Color(153, 0, 0));
         EditOrder.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         EditOrder.setForeground(new java.awt.Color(255, 255, 255));
         EditOrder.setText("Edit");
+        EditOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                EditOrderMouseClicked(evt);
+            }
+        });
         EditOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EditOrderActionPerformed(evt);
@@ -589,16 +828,17 @@ public class EntryOperator extends javax.swing.JFrame {
         });
         ButtonsInv2.add(ClearOrder);
 
-        MButtonsP2.add(ButtonsInv2);
-
         javax.swing.GroupLayout Manage1Layout = new javax.swing.GroupLayout(Manage1);
         Manage1.setLayout(Manage1Layout);
         Manage1Layout.setHorizontalGroup(
             Manage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Formpanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(CalenderPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Formpanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
             .addComponent(InvHeadingP1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(MButtonsP2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(Manage1Layout.createSequentialGroup()
+                .addGap(237, 237, 237)
+                .addComponent(ButtonsInv2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         Manage1Layout.setVerticalGroup(
             Manage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -607,11 +847,11 @@ public class EntryOperator extends javax.swing.JFrame {
                 .addComponent(InvHeadingP1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Formpanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(CalenderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ButtonsInv2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(159, 159, 159)
                 .addComponent(MButtonsP2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(425, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
 
         OrderPanel.add(Manage1);
@@ -625,7 +865,7 @@ public class EntryOperator extends javax.swing.JFrame {
         jList2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jList2.setForeground(new java.awt.Color(153, 0, 0));
         jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "ID", "Type", "Name", "Category", "Quantity", "CNIC", "Date", "Price", "Status", "Delivery date" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -634,12 +874,22 @@ public class EntryOperator extends javax.swing.JFrame {
         Search1.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
         Search1.setForeground(new java.awt.Color(153, 0, 0));
         Search1.setText("Search");
+        Search1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Search1MouseClicked(evt);
+            }
+        });
 
-        jTextField4.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(153, 0, 0));
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        SearchOrder.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        SearchOrder.setForeground(new java.awt.Color(153, 0, 0));
+        SearchOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                SearchOrderActionPerformed(evt);
+            }
+        });
+        SearchOrder.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                SearchOrderKeyTyped(evt);
             }
         });
 
@@ -654,7 +904,7 @@ public class EntryOperator extends javax.swing.JFrame {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(Search1)
                         .addGap(85, 85, 85)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(SearchOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(130, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
@@ -663,7 +913,7 @@ public class EntryOperator extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Search1)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SearchOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(491, Short.MAX_VALUE))
@@ -866,6 +1116,11 @@ public class EntryOperator extends javax.swing.JFrame {
                 deleteInvfieldActionPerformed(evt);
             }
         });
+        deleteInvfield.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                deleteInvfieldKeyTyped(evt);
+            }
+        });
         jPanel5.add(deleteInvfield);
 
         deleteInvButton.setBackground(new java.awt.Color(153, 0, 0));
@@ -883,6 +1138,17 @@ public class EntryOperator extends javax.swing.JFrame {
             }
         });
         jPanel5.add(deleteInvButton);
+
+        jButton3.setBackground(new java.awt.Color(153, 0, 0));
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Print List");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
+        jPanel5.add(jButton3);
 
         HeadingPanel2.add(jPanel5);
 
@@ -995,6 +1261,11 @@ public class EntryOperator extends javax.swing.JFrame {
                 deletefieldActionPerformed(evt);
             }
         });
+        deletefield.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                deletefieldKeyTyped(evt);
+            }
+        });
         jPanel6.add(deletefield);
 
         jButton5.setBackground(new java.awt.Color(153, 0, 0));
@@ -1013,6 +1284,17 @@ public class EntryOperator extends javax.swing.JFrame {
         });
         jPanel6.add(jButton5);
 
+        jButton7.setBackground(new java.awt.Color(153, 0, 0));
+        jButton7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        jButton7.setText("Generate PDF");
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton7MouseClicked(evt);
+            }
+        });
+        jPanel6.add(jButton7);
+
         HeadingPanel3.add(jPanel6);
 
         TablePanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -1028,43 +1310,43 @@ public class EntryOperator extends javax.swing.JFrame {
         Tables1.setForeground(new java.awt.Color(153, 0, 0));
         Tables1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Type", "Name", "Date", "CNIC", "Quantity", "Price", "Category", "DDate"
+                "ID", "Type", "Name", "Date", "CNIC", "Quantity", "Price", "Category", "DDate", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1153,20 +1435,6 @@ public class EntryOperator extends javax.swing.JFrame {
         });
         Buttons.add(Orders);
 
-        Mails.setBackground(new java.awt.Color(153, 0, 0));
-        Mails.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Mails.setForeground(new java.awt.Color(255, 255, 255));
-        Mails.setIcon(new javax.swing.ImageIcon("C:\\Users\\Valeena Afzal\\Documents\\NetBeansProjects\\SCDProject\\src\\main\\java\\com\\mycompany\\Images\\icons8-send-email-30.png")); // NOI18N
-        Mails.setText("Email");
-        Mails.setIconTextGap(80);
-        Mails.setPreferredSize(new java.awt.Dimension(120, 50));
-        Mails.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MailsActionPerformed(evt);
-            }
-        });
-        Buttons.add(Mails);
-
         OrderList.setBackground(new java.awt.Color(153, 0, 0));
         OrderList.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         OrderList.setForeground(new java.awt.Color(255, 255, 255));
@@ -1181,6 +1449,20 @@ public class EntryOperator extends javax.swing.JFrame {
             }
         });
         Buttons.add(OrderList);
+
+        Mails.setBackground(new java.awt.Color(153, 0, 0));
+        Mails.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        Mails.setForeground(new java.awt.Color(255, 255, 255));
+        Mails.setIcon(new javax.swing.ImageIcon("C:\\Users\\Valeena Afzal\\Documents\\NetBeansProjects\\SCDProject\\src\\main\\java\\com\\mycompany\\Images\\icons8-send-email-30.png")); // NOI18N
+        Mails.setText("Email");
+        Mails.setIconTextGap(80);
+        Mails.setPreferredSize(new java.awt.Dimension(120, 50));
+        Mails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MailsActionPerformed(evt);
+            }
+        });
+        Buttons.add(Mails);
 
         LogOut.setBackground(new java.awt.Color(153, 0, 0));
         LogOut.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -1264,7 +1546,21 @@ public class EntryOperator extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void InventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InventoryActionPerformed
+
         SwitchPanels(InventoryPanel);
+        
+       /* try 
+        {
+            String soundName = ".wav";    
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } 
+        catch (Exception ex) {
+            Logger.getLogger(EntryOperator.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+       
         // TODO add your handling code here:
     }//GEN-LAST:event_InventoryActionPerformed
 
@@ -1304,72 +1600,22 @@ public class EntryOperator extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void LogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutActionPerformed
+
+        new LOGIN().setVisible(true);
+        this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_LogOutActionPerformed
 
+    
     private void Inventory1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Inventory1ActionPerformed
         SwitchPanels(ViewInv2);
         ListInventory();
-        
-         String input = "";
-        input = JOptionPane.showInputDialog(null, "Enter File Name for the pdf:");
-        if(input.length() == 0)
-            input = "myPdf";
-        System.out.println(input);
-        
-        String path = "";
-        JFileChooser j = new JFileChooser();
-        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int  x =j.showSaveDialog(this);
-        if(x == JFileChooser.APPROVE_OPTION)
-            path = j.getSelectedFile().getPath();
-        
-        Document doc  = new Document();
-        try 
-        {
-            //System.out.println(path + "\'mydocomg.docx"); 
-            PdfWriter.getInstance(doc, new FileOutputStream(path + "\\" + input + ".pdf"));
-            doc.open();
-            int n = Tables2.getColumnCount();
-            int m = 2;//Tables1. getRowCount();
-            System.out.println("No of cokumsn: " + n);
-            System.out.println("No of rows: " + m);
-            System.out.println("No of rows: " + Tables2. getRowCount());
-            
-            PdfPTable tb = new PdfPTable(n);
-            for(int i = 0; i < n;i++)
-                tb.addCell(Tables2.getColumnName(i));
-            
-            String value = "";
-            for(int y = 0; y < m ; y++ )
-            {
-                for(int  z = 0; z < n; z++)
-                {
-                    
-                    value = Tables2.getValueAt(y,z).toString(); 
-                    System.out.println("Value " + value);
-                    tb.addCell(value);
-                }
-            }
-            doc.add(tb);
-            JOptionPane.showMessageDialog(null,"Pdf gnerated");
-            
-            
-        } 
-        catch (FileNotFoundException | DocumentException ex) 
-        {
-            JOptionPane.showMessageDialog(null,"there is some issue");
-            
-        }
-        doc.close();
-         
-
         // TODO add your handling code here:
     }//GEN-LAST:event_Inventory1ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void SearchInvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchInvActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_SearchInvActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
     
@@ -1424,7 +1670,11 @@ public class EntryOperator extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
 
         
-
+        editlabel.setText("Enter ID of record you want to edit");
+        editbutton.setBackground(Color.red);
+        editbutton.setText("Done");
+        editfield.setBackground(Color.red);
+       
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2MouseClicked
 
@@ -1452,18 +1702,18 @@ public class EntryOperator extends javax.swing.JFrame {
         {
             try (Connection con = DriverManager.getConnection(url, dbusername, dbpassword); Statement st = con.createStatement();) 
                 {
-                    query  = "insert into Orders (ID,Type,Name,Category,Quantity,CNIC,Date,Price,DeliveryDate)"
-                    +  "VALUES(?, ?, ?, ?, ? ,?,?,?,?)";
+                    query  = "insert into Orders (Type,Name,Category,Quantity,CNIC,Date,Price,Status,DeliveryDate)"
+                    +  "VALUES(?, ?, ?, ? ,?,?,?,?,?)";
                     PreparedStatement ps;
                     ps = con.prepareStatement(query);
-                    ps.setString(1, "7");
-                    ps.setString(2, A);
-                    ps.setString(3, C);
-                    ps.setString(4, D);
-                    ps.setString(5, E);
-                    ps.setString(6, B);
-                    ps.setString(7, String.valueOf(LocalDateTime.now()));
-                    ps.setString(8, F);
+                    ps.setString(1, A);
+                    ps.setString(2, C);
+                    ps.setString(3, D);
+                    ps.setString(4, E);
+                    ps.setString(5, B);
+                    ps.setString(6, String.valueOf(LocalDateTime.now()));
+                    ps.setString(7, F);
+                    ps.setString(8, "Not Approved");
                     ps.setString(9, String.valueOf(LocalDateTime.now()));
                     status = ps.executeUpdate();
                     if(status == 1)
@@ -1484,6 +1734,7 @@ public class EntryOperator extends javax.swing.JFrame {
     private void OrderListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrderListActionPerformed
         // TODO add your handling code here:
         SwitchPanels(OrderView);
+        ListOrder();
     }//GEN-LAST:event_OrderListActionPerformed
 
     private void deletefieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletefieldActionPerformed
@@ -1503,9 +1754,9 @@ public class EntryOperator extends javax.swing.JFrame {
         
     }//GEN-LAST:event_ClearOrderMouseClicked
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void SearchOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchOrderActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_SearchOrderActionPerformed
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
 
@@ -1575,6 +1826,325 @@ public class EntryOperator extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteInvButtonMouseClicked
 
+    private void plantQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plantQuantityActionPerformed
+           
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_plantQuantityActionPerformed
+
+    private void plantQuantityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_plantQuantityKeyTyped
+
+        char c=evt.getKeyChar();
+        
+        if(!Character.isDigit(c))
+            evt.consume();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_plantQuantityKeyTyped
+
+    private void plantPriceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_plantPriceKeyTyped
+
+       
+        char c=evt.getKeyChar();
+        
+        if(!Character.isDigit(c))
+            evt.consume();// TODO add your handling code here:
+        // TODO add your handling code here:
+    }//GEN-LAST:event_plantPriceKeyTyped
+
+    private void plantQuantityKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_plantQuantityKeyPressed
+     
+    }//GEN-LAST:event_plantQuantityKeyPressed
+
+    private void OplantQuantityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_OplantQuantityKeyTyped
+        char c=evt.getKeyChar();
+        
+        if(!Character.isDigit(c))
+            evt.consume();
+    
+            // TODO add your handling code here:
+    }//GEN-LAST:event_OplantQuantityKeyTyped
+
+    private void OplantPriceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_OplantPriceKeyTyped
+     char c=evt.getKeyChar();
+        
+        if(!Character.isDigit(c))
+            evt.consume();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_OplantPriceKeyTyped
+
+    private void OCNICKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_OCNICKeyTyped
+        char c=evt.getKeyChar();
+        if(!Character.isDigit(c))
+            evt.consume();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_OCNICKeyTyped
+
+    private void AddOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddOrderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AddOrderActionPerformed
+
+    private void deletefieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_deletefieldKeyTyped
+         char c=evt.getKeyChar();
+        
+        if(!Character.isDigit(c))
+            evt.consume();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deletefieldKeyTyped
+
+    private void deleteInvfieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_deleteInvfieldKeyTyped
+         char c=evt.getKeyChar();
+        
+        if(!Character.isDigit(c))
+            evt.consume();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteInvfieldKeyTyped
+
+    private void SearchOrderKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchOrderKeyTyped
+         char c=evt.getKeyChar();
+        
+        if(!Character.isDigit(c))
+            evt.consume();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SearchOrderKeyTyped
+
+    private void SearchInvKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchInvKeyTyped
+         char c=evt.getKeyChar();
+        
+        if(!Character.isDigit(c))
+            evt.consume();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SearchInvKeyTyped
+
+    private void SearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SearchMouseClicked
+        String query = "";
+        int status=Integer.MAX_VALUE;
+        if(SearchInv.getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "Missing Information");
+        }
+        else
+        {
+            try (Connection con = DriverManager.getConnection(url, dbusername, dbpassword); Statement st = con.createStatement();) 
+                {
+                    query  = "Select * from Inventory where ID = ?";
+                    PreparedStatement ps;
+                    ps = con.prepareStatement(query);
+                    ps.setString(1, SearchInv.getText());
+                    ResultSet rs = ps.executeQuery();
+                    rs.next();
+                    DefaultListModel model = new DefaultListModel();
+                    model.addElement("ID:   "+rs.getString(1));
+                    model.addElement("Type:   "+rs.getString(2));
+                    model.addElement("Name:   "+rs.getString(3));
+                    model.addElement("Category:   "+rs.getString(4));
+                    model.addElement("Quantity:   "+rs.getString(5));
+                    model.addElement("Price:   "+rs.getString(6));
+                    model.addElement("Date:   "+rs.getString(7));
+                    jList1.setModel(model);
+                    con.close();
+                }
+                catch (SQLException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SearchMouseClicked
+
+    private void Search1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Search1MouseClicked
+        String query = "";
+        int status=Integer.MAX_VALUE;
+        if(SearchOrder.getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "Missing Information");
+        }
+        else
+        {
+            try (Connection con = DriverManager.getConnection(url, dbusername, dbpassword); Statement st = con.createStatement();) 
+                {
+                    query  = "Select * from Orders where ID = ?";
+                    PreparedStatement ps;
+                    ps = con.prepareStatement(query);
+                    ps.setString(1, SearchOrder.getText());
+                    ResultSet rs = ps.executeQuery();
+                    rs.next();
+                    DefaultListModel model = new DefaultListModel();
+                    model.addElement("ID:   "+rs.getString(1));
+                    model.addElement("Type:   "+rs.getString(2));
+                    model.addElement("Name:   "+rs.getString(3));
+                    model.addElement("Category:   "+rs.getString(4));
+                    model.addElement("Quantity:   "+rs.getString(5));
+                    model.addElement("CNIC:   "+rs.getString(6));
+                    model.addElement("Date:   "+rs.getString(7));
+                    model.addElement("Price:   "+rs.getString(8));
+                    model.addElement("Status:   "+rs.getString(9));
+                    model.addElement("Delivery Date:   "+rs.getString(10));
+                    jList2.setModel(model);
+                    con.close();
+                }
+                catch (SQLException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+        
+    }//GEN-LAST:event_Search1MouseClicked
+
+    private void editfieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_editfieldKeyTyped
+        char c=evt.getKeyChar();
+        
+        if(!Character.isDigit(c))
+            evt.consume();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editfieldKeyTyped
+
+    private void editfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editfieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editfieldActionPerformed
+
+    private void editbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editbuttonMouseClicked
+
+        String G=editfield.getText();
+        
+        String A = plantType.getSelectedItem().toString();
+        String D = plantCategory.getSelectedItem().toString();
+        String E = plantQuantity.getText();
+        String C = plantName.getText();
+        String F = plantPrice.getText();
+        
+        String query = " ";
+        int status=Integer.MAX_VALUE;
+        if(A.isEmpty() || D.isEmpty() || E.isEmpty() || C.isEmpty() || F.isEmpty()|| G.isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "Missing Information");
+        }
+        else
+        {
+            try (Connection con = DriverManager.getConnection(url, dbusername, dbpassword); Statement st = con.createStatement();) 
+                {
+                    query="UPDATE Inventory SET ID="+G+",Type=?,Name=?,Category=?,Quantity=?,Price=?,Date=? WHERE ID=? ";
+                   
+                    PreparedStatement ps;
+                    ps = con.prepareStatement(query);
+                    ps.setString(1, A);
+                    ps.setString(2, C);
+                    ps.setString(3, D);
+                    ps.setString(4, E);
+                    ps.setString(5, F);
+                    ps.setString(6, String.valueOf(LocalDateTime.now()));
+                    ps.setString(7, G);
+                    status = ps.executeUpdate();
+                    if(status == 1)
+                    {
+                        JOptionPane.showMessageDialog(this, "Inventory Edited Successfully");
+                        
+                    }
+                    con.close();
+                }
+                catch (SQLException e)
+                {
+                    e.printStackTrace();
+                }
+            
+                editlabel.setText("");
+                editfield.setBackground(Color.WHITE);
+                editfield.setText("");
+                editbutton.setText("");
+            }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editbuttonMouseClicked
+
+    private void editfield1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editfield1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editfield1ActionPerformed
+
+    private void editfield1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_editfield1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editfield1KeyTyped
+
+    private void editbutton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editbutton1MouseClicked
+
+        
+        String A = OplantType.getSelectedItem().toString();
+        String D = OplantCategory.getSelectedItem().toString();
+        String E = OplantQuantity.getText();
+        String C = OplantName.getText();
+        String F = OplantPrice.getText();
+        String B = OCNIC.getText();
+        String G=editfield1.getText();
+        
+        
+        String query = " ";
+        int status=Integer.MAX_VALUE;
+        if(A.isEmpty() || D.isEmpty() || E.isEmpty() || C.isEmpty() || F.isEmpty()|| G.isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "Missing Information");
+        }
+        else
+        {
+            try (Connection con = DriverManager.getConnection(url, dbusername, dbpassword); Statement st = con.createStatement();) 
+                {
+                   query  = "UPDATE Orders SET ID="+G+",Type=?,Name=?,Category=?,"
+                           + "Quantity=?,CNIC=?,"
+                           + "Date=?,Price=?,Status=?,DeliveryDate=? WHERE ID=?";
+                    PreparedStatement ps; 
+                    ps = con.prepareStatement(query);
+                    ps.setString(1, A);
+                    ps.setString(2, C);
+                    ps.setString(3, D);
+                    ps.setString(4, E);
+                    ps.setString(5, B);
+                    ps.setString(6, String.valueOf(LocalDateTime.now()));
+                    ps.setString(7, F);
+                    ps.setString(8, "Not Approved");
+                    ps.setString(9, String.valueOf(LocalDateTime.now()));
+                    ps.setString(10, G);
+                    status = ps.executeUpdate();
+                    if(status == 1)
+                    {
+                        JOptionPane.showMessageDialog(this, "Order Edited Successfully");
+                        
+                    }
+                    con.close();
+                }
+                catch (SQLException e)
+                {
+                    e.printStackTrace();
+                }
+            
+                editlabel1.setText("");
+                editfield1.setBackground(Color.WHITE);
+                editfield1.setText("");
+                editbutton1.setText("");
+            }
+        // TODO add your handling code here:
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editbutton1MouseClicked
+
+    private void EditOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditOrderMouseClicked
+        editlabel1.setText("Enter ID of record you want to edit");
+        editbutton1.setBackground(Color.red);
+        editbutton1.setText("Done");
+        editfield1.setBackground(Color.red);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EditOrderMouseClicked
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+
+        GeneratePdf();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+        GenerateOPdf();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7MouseClicked
+
     public void SwitchPanels(JPanel panel)
     {
         Layers.removeAll();
@@ -1624,7 +2194,6 @@ public class EntryOperator extends javax.swing.JFrame {
     private javax.swing.JPanel ButtonsInv;
     private javax.swing.JPanel ButtonsInv2;
     private javax.swing.JLabel CNIC;
-    private javax.swing.JPanel CalenderPanel;
     private javax.swing.JLabel Category;
     private javax.swing.JLabel Category1;
     private javax.swing.JButton ClearOrder;
@@ -1660,13 +2229,11 @@ public class EntryOperator extends javax.swing.JFrame {
     private javax.swing.JLabel Name;
     private javax.swing.JLabel Name1;
     private javax.swing.JTextField OCNIC;
-    private com.toedter.calendar.JDayChooser ODate;
     private javax.swing.JComboBox<String> OplantCategory;
     private javax.swing.JTextField OplantName;
     private javax.swing.JTextField OplantPrice;
     private javax.swing.JTextField OplantQuantity;
     private javax.swing.JComboBox<String> OplantType;
-    private javax.swing.JLabel OrderDate;
     private javax.swing.JButton OrderList;
     private javax.swing.JPanel OrderPanel;
     private javax.swing.JPanel OrderView;
@@ -1676,10 +2243,13 @@ public class EntryOperator extends javax.swing.JFrame {
     private javax.swing.JLabel Price;
     private javax.swing.JLabel Price1;
     private javax.swing.JButton PrintOrder;
+    private javax.swing.JLabel QV1;
     private javax.swing.JLabel Quantity;
     private javax.swing.JLabel Quantity1;
     private javax.swing.JButton Search;
     private javax.swing.JButton Search1;
+    private javax.swing.JTextField SearchInv;
+    private javax.swing.JTextField SearchOrder;
     private javax.swing.JLabel TLogo;
     private javax.swing.JPanel TablePanel2;
     private javax.swing.JPanel TablePanel3;
@@ -1689,13 +2259,22 @@ public class EntryOperator extends javax.swing.JFrame {
     private javax.swing.JButton deleteInvButton;
     private javax.swing.JTextField deleteInvfield;
     private javax.swing.JTextField deletefield;
+    private javax.swing.JLabel editbutton;
+    private javax.swing.JLabel editbutton1;
+    private javax.swing.JTextField editfield;
+    private javax.swing.JTextField editfield1;
+    private javax.swing.JLabel editlabel;
+    private javax.swing.JLabel editlabel1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1703,6 +2282,7 @@ public class EntryOperator extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
@@ -1715,11 +2295,9 @@ public class EntryOperator extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JComboBox<String> plantCategory;
     private javax.swing.JTextField plantName;
