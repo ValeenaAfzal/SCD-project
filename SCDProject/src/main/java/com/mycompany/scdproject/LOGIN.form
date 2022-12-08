@@ -91,9 +91,6 @@
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="cc" green="ff" red="cc" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Valeena Afzal\Documents\NetBeansProjects\SCDProject\src\main\java\com\mycompany\Images\BudB.png"/>
-                </Property>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
               </Properties>
             </Component>
@@ -117,9 +114,6 @@
                   <Color blue="0" green="0" red="99" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Valeena Afzal\Documents\NetBeansProjects\SCDProject\src\main\java\com\mycompany\Images\icons8-login-30.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="LOGIN"/>
                 <Property name="iconTextGap" type="int" value="30"/>
               </Properties>
@@ -152,9 +146,6 @@
                   <Color blue="0" green="0" red="99" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Valeena Afzal\Documents\NetBeansProjects\SCDProject\src\main\java\com\mycompany\Images\icons8-name-tag-30.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Select Role"/>
                 <Property name="iconTextGap" type="int" value="16"/>
               </Properties>
@@ -190,9 +181,6 @@
                   <Color blue="0" green="0" red="99" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Valeena Afzal\Documents\NetBeansProjects\SCDProject\src\main\java\com\mycompany\Images\icons8-user-tag-32.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="ID"/>
                 <Property name="iconTextGap" type="int" value="16"/>
               </Properties>
@@ -219,9 +207,6 @@
                   <Color blue="0" green="0" red="99" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Valeena Afzal\Documents\NetBeansProjects\SCDProject\src\main\java\com\mycompany\Images\icons8-user-secured-32.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Password"/>
                 <Property name="iconTextGap" type="int" value="16"/>
               </Properties>
@@ -342,9 +327,6 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Valeena Afzal\Documents\NetBeansProjects\SCDProject\src\main\java\com\mycompany\Images\icons8-desk-30.png"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Information Desk"/>
             <Property name="iconTextGap" type="int" value="30"/>
           </Properties>
@@ -598,25 +580,10 @@
                       </Layout>
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="icon1">
-                          <Properties>
-                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="2" name="C:\Users\Valeena Afzal\Documents\NetBeansProjects\SCDProject\src\main\java\com\mycompany\Images\icons8-tulip-30.png"/>
-                            </Property>
-                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="icon2">
-                          <Properties>
-                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="2" name="C:\Users\Valeena Afzal\Documents\NetBeansProjects\SCDProject\src\main\java\com\mycompany\Images\icons8-palm-tree-30.png"/>
-                            </Property>
-                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="icon3">
-                          <Properties>
-                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="2" name="C:\Users\Valeena Afzal\Documents\NetBeansProjects\SCDProject\src\main\java\com\mycompany\Images\icons8-seed-packet-30.png"/>
-                            </Property>
-                          </Properties>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -628,9 +595,6 @@
                       <Color blue="0" green="33" red="99" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Valeena Afzal\Documents\NetBeansProjects\SCDProject\src\main\java\com\mycompany\Images\icons8-sprout-100.png"/>
-                    </Property>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
                     <Property name="iconTextGap" type="int" value="0"/>
                   </Properties>

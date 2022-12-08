@@ -5,6 +5,9 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import static com.mycompany.scdproject.SCDProject.dbpassword;
+import static com.mycompany.scdproject.SCDProject.dbusername;
+import static com.mycompany.scdproject.SCDProject.url;
 import com.toedter.calendar.JDayChooser;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -13,6 +16,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +40,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -45,12 +56,179 @@ import org.jfree.data.statistics.HistogramDataset;
 
 public class APage extends javax.swing.JFrame {
 
+    static String url="jdbc:mysql://jsmartfix.com:3306/jsmartfix_SCD";
+    static String dbusername = "jsmartfix_SCD"; // MySQL credentials
+    static String dbpassword = "Scdfuckyou101";
+
     public APage() {
         initComponents();
 
         similarOps2();
         showLineChart();
         showBarChart();
+    }
+    
+    Connection con = null;
+    Statement st=null;
+    ResultSet rs=null;
+    
+    public void  sendEmail()
+    {
+        String recipient  = jTextField9.getText();
+        System.out.println("this is the jTextField9: " + recipient);
+
+        String subject = jTextField10.getText();
+        System.out.println("this is the jTextField10: " + subject);
+
+        String content = jTextField17.getText();
+        System.out.println("this is the jTextField17: " + content);
+
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth","true");
+        properties.put("mail.smtp.starttls.enable","true");
+        properties.put("mail.smtp.host","smtp.gmail.com");
+        properties.put("mail.smtp.port","587");
+
+        String myAccountEmail = "l201283@lhr.nu.edu.pk";
+        String password = "03009445888";
+
+        Session session = Session.getInstance(properties, new Authenticator()
+        {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication()
+            {
+                return new PasswordAuthentication(myAccountEmail, password);
+            }
+        }
+        );
+
+        Message message = new MimeMessage(session);
+        try 
+        {
+            message.setFrom(new InternetAddress(myAccountEmail));
+            message.setRecipient(Message.RecipientType.TO,new InternetAddress(recipient));
+            message.setSubject(subject);
+
+            MimeMultipart multipart = new MimeMultipart();
+
+            //message with mimebodypart
+            MimeBodyPart msgBodyPart = new MimeBodyPart();
+            msgBodyPart.setContent(content,"text/html");
+
+            //attachment with mimebodypart
+            MimeBodyPart attachment = new MimeBodyPart();
+            String path = null;
+            try 
+            {
+                System.out.println("in thus code");
+                
+                File file = null;
+                file =  jFileChooser1.getSelectedFile();
+                System.out.println("i am file:"+file);
+                if(file != null)
+                    if(file.exists())
+                        path = file.getPath();
+                if(path != null)
+                    attachment.attachFile(new File(file.getAbsolutePath()) );
+                /*
+                JFileChooser fileChooser = new JFileChooser();
+                int values = fileChooser.showOpenDialog(null);
+                File file = fileChooser.getSelectedFile();
+                System.out.println("i am file:"+file);
+                if(values == JFileChooser.APPROVE_OPTION)
+                    if(file.exists())
+                        path = file.getPath();
+                if(path != null)
+                    attachment.attachFile(new File(file.getAbsolutePath()) );
+                */
+            }
+            catch (IOException ex) 
+            {
+                System.out.println("Unable to add attachement to mail");
+            }
+            //adding both to multipart
+            multipart.addBodyPart(msgBodyPart);
+            if(path!=null)
+                multipart.addBodyPart(attachment);
+
+            //adding both to message
+            message.setContent(multipart);
+
+
+
+        }
+        catch (MessagingException ex)
+        {
+            System.out.println("Check Mail Part");
+            //Logger.getLogger(APage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try
+        {
+            Transport.send(message);
+            System.out.println("\nSent successfully\n");
+
+        } 
+        catch (MessagingException ex) {
+            System.out.println("Check Mail Transport part");
+            //Logger.getLogger(APage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+             
+    }
+
+    public void printPdf()
+    {
+        String input = "";
+        input = JOptionPane.showInputDialog(null, "Enter File Name for the pdf:");
+        if(input.length() == 0)
+            input = "myPdf";
+        System.out.println(input);
+        
+        String path = "";
+        JFileChooser j = new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int  x =j.showSaveDialog(this);
+        if(x == JFileChooser.APPROVE_OPTION)
+            path = j.getSelectedFile().getPath();
+        
+        Document doc  = new Document();
+        try 
+        {
+            //System.out.println(path + "\'mydocomg.docx"); 
+            PdfWriter.getInstance(doc, new FileOutputStream(path + "\\" + input + ".pdf"));
+            doc.open();
+            int n = Tables1.getColumnCount();
+            int m = 2;//Tables1. getRowCount();
+            System.out.println("No of cokumsn: " + n);
+            System.out.println("No of rows: " + m);
+            System.out.println("No of rows: " + Tables1. getRowCount());
+            
+            PdfPTable tb = new PdfPTable(n);
+            for(int i = 0; i < n;i++)
+                tb.addCell(Tables1.getColumnName(i));
+            
+            String value = "";
+            for(int y = 0; y < m ; y++ )
+            {
+                for(int  z = 0; z < n; z++)
+                {
+                    
+                    value = Tables1.getValueAt(y,z).toString(); 
+                    System.out.println("Value " + value);
+                    tb.addCell(value);
+                }
+            }
+            doc.add(tb);
+            JOptionPane.showMessageDialog(null,"Pdf gnerated");
+            
+            
+        } 
+        catch (FileNotFoundException | DocumentException ex) 
+        {
+            JOptionPane.showMessageDialog(null,"there is some issue");
+            
+        }
+        doc.close();  
     }
     
     public void similarOps2()
@@ -462,8 +640,10 @@ public class APage extends javax.swing.JFrame {
                 jButton6ActionPerformed(evt);
             }
 
-            private void jButton6ActionPerformed(ActionEvent evt){
-                System.out.println("yeah"); //To change body of generated methods, choose Tools | Templates.
+            private void jButton6ActionPerformed(ActionEvent evt)
+            {
+                sendEmail();
+            /*    System.out.println("yeah"); //To change body of generated methods, choose Tools | Templates.
               
                 String recipient  = jTextField9.getText();
                 System.out.println("this is the jTextField9: " + recipient);
@@ -508,9 +688,23 @@ public class APage extends javax.swing.JFrame {
                     
                     //attachment with mimebodypart
                     MimeBodyPart attachment = new MimeBodyPart();
+                    String path = null;
                     try 
                     {
-                        attachment.attachFile(new File(jFileChooser1.getSelectedFile().getAbsolutePath()) );
+                        System.out.println("in thus code");
+                  
+                        //JFileChooser fileChooser = new JFileChooser();
+                        //int values = jFileChooser1.showOpenDialog(null);
+                        
+                        File file = null;
+                        file =  jFileChooser1.getSelectedFile();
+                        System.out.println("i am file:"+file);
+                        if(file != null)
+                            if(file.exists())
+                                path = file.getPath();
+                        if(path != null)
+                            attachment.attachFile(new File(file.getAbsolutePath()) );
+                        //attachment.attachFile(new File(jFileChooser1.getSelectedFile().getAbsolutePath()) );
                     }
                     catch (IOException ex) 
                     {
@@ -518,7 +712,8 @@ public class APage extends javax.swing.JFrame {
                     }
                     //adding both to multipart
                     multipart.addBodyPart(msgBodyPart);
-                    multipart.addBodyPart(attachment);
+                    if(path != null)
+                        multipart.addBodyPart(attachment);
                     
                     //adding both to message
                     message.setContent(multipart);
@@ -544,7 +739,7 @@ public class APage extends javax.swing.JFrame {
                 }
                 
                 
-                
+            */  
             }
         });
 
@@ -896,15 +1091,125 @@ public class APage extends javax.swing.JFrame {
     public void showLineChart(){
         //create dataset for the graph
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(200, "Amount", "january");
-        dataset.setValue(150, "Amount", "february");
-        dataset.setValue(18, "Amount", "march");
-        dataset.setValue(100, "Amount", "april");
-        dataset.setValue(80, "Amount", "may");
-        dataset.setValue(250, "Amount", "june");
+        
+        String noOfOrders12 = null;
+        String noOfOrders11 = null;
+        String noOfOrders10 = null;
+        String noOfOrders9 = null;
+        String noOfOrders8 = null;
+        String noOfOrders7 = null;
+        String noOfOrders6 = null;
+        String noOfOrders5 = null;
+        String noOfOrders4 = null;
+        String noOfOrders3 = null;
+        String noOfOrders2 = null;
+        String noOfOrders1 = null;
+        
+        //query to retriev total order in a month
+        System.out.println(url);        
+        try  
+        {
+            con = DriverManager.getConnection(url, dbusername, dbpassword); 
+            st = con.createStatement();
+            System.out.println("Connection Established, will execute query now");
+            
+            
+            String query= "SELECT COUNT(*) FROM Orders Where DATEDIFF(Date,CURRENT_TIMESTAMP) <= 30";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrders12 = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrders12); // Print result on console
+            
+            query= "SELECT COUNT(*) FROM Orders Where DATEDIFF(Date,CURRENT_TIMESTAMP) <= 60 && DATEDIFF(Date,CURRENT_TIMESTAMP) > 30";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrders11 = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrders11); // Print result on console
+            
+            
+            query= "SELECT COUNT(*) FROM Orders Where DATEDIFF(Date,CURRENT_TIMESTAMP) <= 90 && DATEDIFF(Date,CURRENT_TIMESTAMP) > 60";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrders10 = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrders10);
+            
+            query= "SELECT COUNT(*) FROM Orders Where DATEDIFF(Date,CURRENT_TIMESTAMP) <= 120 && DATEDIFF(Date,CURRENT_TIMESTAMP) > 90";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrders9 = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrders9);
+            
+            query= "SELECT COUNT(*) FROM Orders Where DATEDIFF(Date,CURRENT_TIMESTAMP) <= 150 && DATEDIFF(Date,CURRENT_TIMESTAMP) > 120";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrders8 = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrders8);
+            
+            query= "SELECT COUNT(*) FROM Orders Where DATEDIFF(Date,CURRENT_TIMESTAMP) <= 180 && DATEDIFF(Date,CURRENT_TIMESTAMP) > 150";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrders7 = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrders7);
+            
+            query= "SELECT COUNT(*) FROM Orders Where DATEDIFF(Date,CURRENT_TIMESTAMP) <= 210 && DATEDIFF(Date,CURRENT_TIMESTAMP) > 180";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrders6 = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrders6);
+            
+            query= "SELECT COUNT(*) FROM Orders Where DATEDIFF(Date,CURRENT_TIMESTAMP) <= 240 && DATEDIFF(Date,CURRENT_TIMESTAMP) > 210";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrders5 = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrders5);
+
+            query= "SELECT COUNT(*) FROM Orders Where DATEDIFF(Date,CURRENT_TIMESTAMP) <= 270 && DATEDIFF(Date,CURRENT_TIMESTAMP) > 240";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrders4 = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrders4);
+
+            query= "SELECT COUNT(*) FROM Orders Where DATEDIFF(Date,CURRENT_TIMESTAMP) <= 300 && DATEDIFF(Date,CURRENT_TIMESTAMP) > 270";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrders3 = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrders3);
+
+            query= "SELECT COUNT(*) FROM Orders Where DATEDIFF(Date,CURRENT_TIMESTAMP) <= 330 && DATEDIFF(Date,CURRENT_TIMESTAMP) > 300";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrders2 = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrders2);            
+            
+            query= "SELECT COUNT(*) FROM Orders Where DATEDIFF(Date,CURRENT_TIMESTAMP) <= 360 && DATEDIFF(Date,CURRENT_TIMESTAMP) > 330";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrders1 = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrders1); 
+
+            con.close(); // close connection
+            System.out.println("Connection Closed....");
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        
+        dataset.setValue(Integer.parseInt(noOfOrders1), "Amount", "Jan");
+        dataset.setValue(Integer.parseInt(noOfOrders2), "Amount", "Feb");
+        dataset.setValue(Integer.parseInt(noOfOrders3), "Amount", "Mar");
+        dataset.setValue(Integer.parseInt(noOfOrders4), "Amount", "Apr");
+        dataset.setValue(Integer.parseInt(noOfOrders5), "Amount", "May");
+        dataset.setValue(Integer.parseInt(noOfOrders6), "Amount", "June");
+        dataset.setValue(Integer.parseInt(noOfOrders7), "Amount", "July");
+        dataset.setValue(Integer.parseInt(noOfOrders8), "Amount", "Aug");
+        dataset.setValue(Integer.parseInt(noOfOrders9), "Amount", "Sept");
+        dataset.setValue(Integer.parseInt(noOfOrders10), "Amount", "Oct");
+        dataset.setValue(Integer.parseInt(noOfOrders11), "Amount", "Nov"); 
+        dataset.setValue(Integer.parseInt(noOfOrders12), "Amount", "Dec"); 
         
         //create chart
-        JFreeChart linechart = ChartFactory.createLineChart("contribution","monthly","amount", 
+        JFreeChart linechart = ChartFactory.createLineChart("Orders","months","no. of orders", 
                 dataset, PlotOrientation.VERTICAL, false,true,false);
         
         //create plot object
@@ -925,15 +1230,48 @@ public class APage extends javax.swing.JFrame {
     }
     
     public void showBarChart(){
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(200, "Amount", "january");
-        dataset.setValue(150, "Amount", "february");
-        dataset.setValue(18, "Amount", "march");
-        dataset.setValue(100, "Amount", "april");
-        dataset.setValue(80, "Amount", "may");
-        dataset.setValue(250, "Amount", "june");
         
-        JFreeChart chart = ChartFactory.createBarChart("contribution","monthly","amount", 
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        String nPlants = null,nSeeds =null,nTools = null;
+        try  
+        {
+            con = DriverManager.getConnection(url, dbusername, dbpassword); 
+            st = con.createStatement();
+            System.out.println("Connection Established, will execute query now");
+            
+            
+            String query= "SELECT COUNT(*) FROM Inventory Where Category = 'Plants'";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            nPlants = rs.getString(1);
+            System.out.println("No of Plants: "+nPlants); // Print result on console
+            
+            query= "SELECT COUNT(*) FROM Inventory Where Category = 'Seeds'";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            nSeeds = rs.getString(1);
+            System.out.println("No of Plants: "+nSeeds); // Print result on console
+            
+            query= "SELECT COUNT(*) FROM Inventory Where Category = 'Tools'";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            nTools = rs.getString(1);
+            System.out.println("No of Tools: "+nTools); // Print result on console
+            
+            
+            con.close(); // close connection
+            System.out.println("Connection Closed....");
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }    
+        
+        dataset.setValue(Integer.parseInt(nPlants), "Amount", "Plants");
+        dataset.setValue(Integer.parseInt(nSeeds), "Amount", "Seeds");
+        dataset.setValue(Integer.parseInt(nTools), "Amount", "Tools");
+        
+        JFreeChart chart = ChartFactory.createBarChart("Inventory","monthly","amount", 
                 dataset, PlotOrientation.VERTICAL, false,true,false);
         
         CategoryPlot categoryPlot = chart.getCategoryPlot();
@@ -950,7 +1288,8 @@ public class APage extends javax.swing.JFrame {
         
         
     }
-    
+
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -1074,7 +1413,6 @@ public class APage extends javax.swing.JFrame {
         Heading3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -1232,11 +1570,11 @@ public class APage extends javax.swing.JFrame {
 
         panelBarChart1.setBackground(new java.awt.Color(255, 255, 255));
         panelBarChart1.setLayout(new java.awt.BorderLayout());
-        DashBoardPanel.add(panelBarChart1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 120, 320, 250));
+        DashBoardPanel.add(panelBarChart1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 560, 250));
 
         panelBarChart3.setBackground(new java.awt.Color(255, 255, 255));
         panelBarChart3.setLayout(new java.awt.BorderLayout());
-        DashBoardPanel.add(panelBarChart3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, 580, 250));
+        DashBoardPanel.add(panelBarChart3, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 110, 440, 250));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setForeground(new java.awt.Color(153, 0, 0));
@@ -1248,10 +1586,31 @@ public class APage extends javax.swing.JFrame {
 
         jLabel12.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(153, 0, 0));
-        jLabel12.setText("12");
+        String noOfOrdersCompleted = null;
+        try
+        {
+            con = DriverManager.getConnection(url, dbusername, dbpassword);
+            st = con.createStatement();
+            System.out.println("Connection Established, will execute query now");
+
+            String query= "SELECT COUNT(*) FROM Orders WHERE Status = 'Completed' ";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrdersCompleted = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrdersCompleted);
+            int value = Integer.parseInt(noOfOrdersCompleted);
+
+            con.close();
+
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        jLabel12.setText(noOfOrdersCompleted);
         jPanel2.add(jLabel12);
 
-        DashBoardPanel.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 260, 100));
+        DashBoardPanel.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 180, 60));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1262,10 +1621,30 @@ public class APage extends javax.swing.JFrame {
 
         jLabel13.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(153, 0, 0));
-        jLabel13.setText("2");
+        String noOfOrdersPending = null;
+        try
+        {
+            con = DriverManager.getConnection(url, dbusername, dbpassword);
+            st = con.createStatement();
+            System.out.println("Connection Established, will execute query now");
+
+            String query= "SELECT COUNT(*) FROM Orders WHERE Status = 'Pending' ";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrdersPending = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrdersPending);
+
+            con.close();
+
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        jLabel13.setText(noOfOrdersPending);
         jPanel3.add(jLabel13);
 
-        DashBoardPanel.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 120, 260, 100));
+        DashBoardPanel.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, 180, 60));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1276,10 +1655,30 @@ public class APage extends javax.swing.JFrame {
 
         jLabel15.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(153, 0, 0));
-        jLabel15.setText("5");
+        String noOfOrdersInProgress = null;
+        try
+        {
+            con = DriverManager.getConnection(url, dbusername, dbpassword);
+            st = con.createStatement();
+            System.out.println("Connection Established, will execute query now");
+
+            String query= "SELECT COUNT(*) FROM Orders WHERE Status = 'InProgress' ";//where MONTH(Date) as start_month -  ";
+            rs = st.executeQuery(query);
+            rs.next();
+            noOfOrdersInProgress  = rs.getString(1);
+            System.out.println("No of Orders: "+noOfOrdersInProgress );
+
+            con.close();
+
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        jLabel15.setText(noOfOrdersInProgress);
         jPanel4.add(jLabel15);
 
-        DashBoardPanel.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 260, 100));
+        DashBoardPanel.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 280, 180, 60));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1293,7 +1692,7 @@ public class APage extends javax.swing.JFrame {
         jLabel14.setText("30");
         jPanel5.add(jLabel14);
 
-        DashBoardPanel.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 270, 260, 100));
+        DashBoardPanel.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 180, 60));
 
         jLayeredPane1.add(DashBoardPanel, "card5");
 
@@ -2061,15 +2460,11 @@ public class APage extends javax.swing.JFrame {
 
         jLayeredPane1.add(OrderPanel, "card3");
 
-        getContentPane().add(jLayeredPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 1130, 710));
+        getContentPane().add(jLayeredPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 1130, 740));
 
-        setSize(new java.awt.Dimension(1385, 751));
+        setSize(new java.awt.Dimension(1316, 658));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void DashBoardBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashBoardBtnMouseClicked
         switchPanel(DashBoardPanel);
@@ -2238,7 +2633,7 @@ public class APage extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField16ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+        sendEmail();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
@@ -2251,7 +2646,73 @@ public class APage extends javax.swing.JFrame {
 
     private void jTextField20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField20ActionPerformed
         // TODO add your handling code here:
+<<<<<<< Updated upstream
     }//GEN-LAST:event_jTextField20ActionPerformed
+=======
+    }//GEN-LAST:event_DeleteOrderActionPerformed
+
+    private void PrintOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintOrderActionPerformed
+
+        /*        
+        String input = "";
+        input = JOptionPane.showInputDialog(null, "Enter File Name for the pdf:");
+        if(input.length() == 0)
+            input = "myPdf";
+        System.out.println(input);
+        
+        String path = "";
+        JFileChooser j = new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int  x =j.showSaveDialog(this);
+        if(x == JFileChooser.APPROVE_OPTION)
+            path = j.getSelectedFile().getPath();
+        
+        Document doc  = new Document();
+        try 
+        {
+            //System.out.println(path + "\'mydocomg.docx"); 
+            PdfWriter.getInstance(doc, new FileOutputStream(path + "\\" + input + ".pdf"));
+            doc.open();
+            int n = Tables1.getColumnCount();
+            int m = 2;//Tables1. getRowCount();
+            System.out.println("No of cokumsn: " + n);
+            System.out.println("No of rows: " + m);
+            System.out.println("No of rows: " + Tables1. getRowCount());
+            
+            PdfPTable tb = new PdfPTable(n);
+            for(int i = 0; i < n;i++)
+                tb.addCell(Tables1.getColumnName(i));
+            
+            String value = "";
+            for(int y = 0; y < m ; y++ )
+            {
+                for(int  z = 0; z < n; z++)
+                {
+                    
+                    value = Tables1.getValueAt(y,z).toString(); 
+                    System.out.println("Value " + value);
+                    tb.addCell(value);
+                }
+            }
+            doc.add(tb);
+            JOptionPane.showMessageDialog(null,"Pdf gnerated");
+            
+            
+        } 
+        catch (FileNotFoundException | DocumentException ex) 
+        {
+            JOptionPane.showMessageDialog(null,"there is some issue");
+            
+        }
+        doc.close();
+        */
+        printPdf();
+    }//GEN-LAST:event_PrintOrderActionPerformed
+>>>>>>> Stashed changes
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

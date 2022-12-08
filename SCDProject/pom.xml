@@ -33,6 +33,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.31</version>
         </dependency>
+        <!--
        <dependency>
             <groupId>net.proteanit.sql</groupId>
             <artifactId>rs2xml</artifactId>
@@ -40,6 +41,7 @@
             <scope>system</scope>
             <systemPath>C:\Users\Valeena Afzal\Downloads\rs2xml.jar</systemPath>
         </dependency>
+        -->
         <!--<dependency>
             <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
             <artifactId>jackson-jakarta-rs-xml-provider</artifactId>
